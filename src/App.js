@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Countries from './components/countries/Countries';
+import Header from './components/header/Header';
 
 export default class App extends Component {
   constructor() {
@@ -7,6 +9,7 @@ export default class App extends Component {
     this.state = {
       allCountries: [],
       filteredCountries: [],
+      filter: '',
     };
   }
 
@@ -20,23 +23,33 @@ export default class App extends Component {
 
     this.setState({
       allCountries,
+      filteredCountries: allCountries,
     });
   }
-  render() {
+
+  async componentDidUpdate() {}
+
+  handleChangeFilter = (newText) => {
     const { allCountries } = this.state;
+    const filteredCountries = allCountries.filter((item) => {
+      return item.name.toLowerCase().includes(newText.toLowerCase());
+    });
+
+    this.setState({
+      filter: newText,
+      filteredCountries,
+    });
+  };
+
+  render() {
+    const { filteredCountries, filter } = this.state;
 
     return (
       <div className="container">
         <h1>React Countries</h1>
-        <ul>
-          {allCountries.map((country) => {
-            return (
-              <li key={country.id}>
-                {country.name} {country.id}
-              </li>
-            );
-          })}
-        </ul>
+        <Header filter={filter} onChangeFilter={this.handleChangeFilter} />
+
+        <Countries countries={filteredCountries} />
       </div>
     );
   }
