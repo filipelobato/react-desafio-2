@@ -38,18 +38,24 @@ export default class App extends Component {
   }
 
   handleChangeFilter = (newText) => {
+    this.setState({
+      filter: newText,
+    });
     const { allCountries } = this.state;
+
     const filterLowerCase = newText.toLowerCase();
 
     const filteredCountries = allCountries.filter((country) => {
       return country.filterName.includes(filterLowerCase);
     });
 
+    this.setState({
+      filteredCountries,
+    });
+
     const filteredPopulation = this.calculateTotalPopulation(filteredCountries);
 
     this.setState({
-      filter: newText,
-      filteredCountries,
       filteredPopulation,
     });
   };
@@ -66,7 +72,8 @@ export default class App extends Component {
 
     return (
       <div className="container">
-        <h1>React Countries</h1>
+        <h1 style={styles.centeredTitle}>React Countries</h1>
+
         <Header
           filter={filter}
           countryCount={filteredCountries.length}
@@ -79,3 +86,9 @@ export default class App extends Component {
     );
   }
 }
+
+const styles = {
+  centeredTitle: {
+    textAlign: 'center',
+  },
+};

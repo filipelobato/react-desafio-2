@@ -15,6 +15,8 @@ export default class Header extends Component {
     return (
       <div className={css.flexRow}>
         <input
+          autoFocus
+          placeholder="Digite o nome do país aqui..."
           style={{ minWidth: '200px' }}
           type="text"
           value={filter}
